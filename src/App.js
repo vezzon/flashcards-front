@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import Dashboard from './components/Dashboard';
+import Flashcard from './components/Flashcard';
+import Home from './components/Home';
+import Login from './components/Login';
+import Navbar from './components/Navbar';
+import Signup from './components/Signup';
 
 function App() {
+  let component;
+  let path = window.location.pathname;
+  switch (path) {
+    case '/':
+      component = <Home />;
+      break;
+    case '/signup':
+      component = <Signup />;
+      break;
+    case '/login':
+      component = <Login />;
+      break;
+    case '/dashboard':
+      component = <Dashboard />;
+      break;
+    case '/flashcard':
+      component = <Flashcard />;
+      break;
+    default:
+      component = <Home />;
+      break;
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar />
+      <div className="container">{component}</div>
     </div>
   );
 }
