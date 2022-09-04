@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import LoginContext from '../context/LoginContext';
 
 export default function Flashcard() {
   const [flip, setFlip] = useState(false);
   const [index, change] = useState(1);
-  const [card, setCard] = useState({ Eng: 'Start', Pl: 'Start' });
+  const [card, setCard] = useState({ Eng: 'Front', Pl: 'Back' });
+  const { token } = useContext(LoginContext);
 
   useEffect(() => {
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InVzZXJAaGVoZS54eXoiLCJQYXNzd29yZCI6IiQyYiQxMCRjaDVhYS5KMzVtc0M1UGJXTHA5V1cuT2kzc2hmMTJxSEVIM21TNGd4eW1LRUJNS29samhNeSIsImlhdCI6MTY2MjIwMjIzNiwiZXhwIjoxNjYyNDYxNDM2fQ.KJarhzH3L3y0wX6XZVeBbghivXoIhB1rdU8j4JngIME';
     axios
       .get(`http://127.0.0.1:4000/cards/${index}`, {
         withCredentials: true,
@@ -17,8 +17,11 @@ export default function Flashcard() {
         },
       })
       .then(res => setCard(res.data))
-      .catch(err => console.log(err));
-  }, [index]);
+      .catch(err => {
+        console.log(err);
+        console.log('token', token);
+      });
+  }, [index, token]);
 
   const next = () => {
     change(index => index + 1);

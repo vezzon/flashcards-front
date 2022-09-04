@@ -5,39 +5,24 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
 import { LoginProvider } from './context/LoginContext';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
-  let component;
-  let path = window.location.pathname;
-  switch (path) {
-    case '/':
-      component = <Home />;
-      break;
-    case '/signup':
-      component = <Signup />;
-      break;
-    case '/login':
-      component = (
-        <LoginProvider>
-          <Login />
-        </LoginProvider>
-      );
-      break;
-    case '/dashboard':
-      component = <Dashboard />;
-      break;
-    case '/flashcard':
-      component = <Flashcard />;
-      break;
-    default:
-      component = <Home />;
-      break;
-  }
   return (
-    <>
-      <Navbar />
-      <div className="container">{component}</div>
-    </>
+    <LoginProvider>
+      <BrowserRouter>
+        <Navbar />
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/flashcard" element={<Flashcard />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </LoginProvider>
   );
 }
 

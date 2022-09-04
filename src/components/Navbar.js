@@ -1,27 +1,18 @@
+import { Link } from 'react-router-dom';
+
 export default function Navbar() {
   return (
     <nav className="nav">
-      <a href="/" className="site-title">
+      <Link to={'/'} className="site-title">
         Flashcards App
-      </a>
+      </Link>
       <ul>
-        <CustomLink href="/home">Home</CustomLink>
-        <CustomLink href="/signup">Signup</CustomLink>
-        <CustomLink href="/login">Login</CustomLink>
-        <CustomLink href="/dashboard">Dashboard</CustomLink>
-        <CustomLink href="/flashcard">Flashcard</CustomLink>
+        <Link to={'/'}>Home</Link>
+        <Link to={'/signup'}>Signup</Link>
+        <Link to={'/login'}>Login</Link>
+        <Link to={'/dashboard'}>Dashboard</Link>
+        <Link to={'/flashcard'}>Flashcard</Link>
       </ul>
     </nav>
-  );
-}
-
-function CustomLink({ href, children, ...props }) {
-  const path = window.location.pathname;
-  return (
-    <li className={path === href ? 'active' : ''}>
-      <a href={href} {...props}>
-        {children}
-      </a>
-    </li>
   );
 }
