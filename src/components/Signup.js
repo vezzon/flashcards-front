@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import SignForm from './SignForm';
+import axios from 'axios';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const submitHandler = event => {
+  const submitHandler = async event => {
     event.preventDefault();
 
     const userData = {
@@ -14,7 +16,17 @@ export default function Signup() {
 
     console.log(userData);
 
-    setEmail('');
+    const url = 'http://127.0.0.1:4000/signup';
+
+    try {
+      const res = await axios.post(url, { ...userData });
+      console.log(res);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+
+    // setEmail('');
+    // setPassword('');
   };
 
   const emailHandler = event => {
@@ -26,34 +38,16 @@ export default function Signup() {
   };
 
   return (
-    <div>
-      <h1>Signup!</h1>
-      <form onSubmit={submitHandler}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            name="email"
-            value={email}
-            required
-            onChange={emailHandler}
-          />
-        </div>
-        <div>
-          <label name="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={passwordHandler}
-          />
-        </div>
-        <button type="submit">Signup</button>
-      </form>
-      <div>
-        <a href="/login">Already have an account?</a>
-      </div>
-    </div>
+    <SignForm
+      header={'Signup!'}
+      submitHandler={submitHandler}
+      email={email}
+      emailHandler={emailHandler}
+      password={password}
+      passwordHandler={passwordHandler}
+      submitButton={'Signup'}
+      href={'/login'}
+      linkText={'Already have an account?'}
+    />
   );
 }

@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
+import { LoginProvider } from './context/LoginContext';
 
 function App() {
   let component;
@@ -16,7 +17,11 @@ function App() {
       component = <Signup />;
       break;
     case '/login':
-      component = <Login />;
+      component = (
+        <LoginProvider>
+          <Login />
+        </LoginProvider>
+      );
       break;
     case '/dashboard':
       component = <Dashboard />;
@@ -29,10 +34,10 @@ function App() {
       break;
   }
   return (
-    <div>
+    <>
       <Navbar />
       <div className="container">{component}</div>
-    </div>
+    </>
   );
 }
 

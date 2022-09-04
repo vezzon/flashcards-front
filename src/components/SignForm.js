@@ -1,7 +1,7 @@
 export default function SignForm(props) {
   return (
     <div>
-      <h1>Signup!</h1>
+      <h1>{props.header}</h1>
       <form onSubmit={props.submitHandler}>
         <div>
           <label htmlFor="email">Email</label>
@@ -14,7 +14,7 @@ export default function SignForm(props) {
           />
         </div>
         <div>
-          <label name="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
@@ -23,10 +23,10 @@ export default function SignForm(props) {
             onChange={props.passwordHandler}
           />
         </div>
-        <button type="submit">Signup</button>
+        <button type="submit">{props.submitButton}</button>
       </form>
       <div>
-        <a href="/login">Already have an account?</a>
+        <a href={props.href}>{props.linkText}</a>
       </div>
     </div>
   );
