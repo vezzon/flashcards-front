@@ -1,12 +1,14 @@
 import { useState, useContext } from 'react';
-import LoginContext from '../context/LoginContext';
-import SignForm from './SignForm';
-import axios from 'axios';
+import LoginContext from '../../context/LoginContext';
+import SignForm from '../SignForm';
+import axios from '../../api/Backend';
+import { Navigate } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setToken } = useContext(LoginContext);
+  const [navigate, setNavigate] = useState(false);
+  const loginContext = useContext(LoginContext);
 
   const submitHandler = async event => {
     event.preventDefault();
@@ -16,17 +18,17 @@ export default function Login() {
       password: password,
     };
 
-    const url = 'http://127.0.0.1:4000/login';
-
     try {
-      const res = await axios.post(url, { ...userData });
-      console.log('Token from response', res.data.token);
-      setToken(res.data.token);
+      const res = await axios.post('/login', userData);
+      console.log(res);
+
+      const { id, token } = res.data;
+
+      loginContext.login(id, token);
+      setNavigate(true);
     } catch (error) {
       console.log(error.response.data);
     }
-    // setEmail('');
-    // setPassword('');
   };
 
   const emailHandler = event => {
@@ -36,6 +38,10 @@ export default function Login() {
   const passwordHandler = event => {
     setPassword(event.target.value);
   };
+
+  if (navigate) {
+    return <Navigate to={'/dashboard'} />;
+  }
 
   return (
     <SignForm

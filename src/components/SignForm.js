@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function SignForm(props) {
   return (
     <div>
@@ -26,7 +28,7 @@ export default function SignForm(props) {
         <button type="submit">{props.submitButton}</button>
       </form>
       <div>
-        <a href={props.href}>{props.linkText}</a>
+        <Link to={props.href}>{props.linkText}</Link>
       </div>
     </div>
   );

@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import SignForm from './SignForm';
-import axios from 'axios';
+import SignForm from '../SignForm';
+import axios from '../../api/Backend';
+import { Navigate } from 'react-router-dom';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [navigate, setNavigate] = useState(false);
 
   const submitHandler = async event => {
     event.preventDefault();
@@ -14,19 +16,16 @@ export default function Signup() {
       password: password,
     };
 
-    console.log(userData);
-
-    const url = 'http://127.0.0.1:4000/signup';
-
     try {
-      const res = await axios.post(url, { ...userData });
+      const res = await axios.post('/signup', userData);
       console.log(res);
+
+      if (res.status === 201) {
+        setNavigate(true);
+      }
     } catch (error) {
       console.log(error.response.data);
     }
-
-    // setEmail('');
-    // setPassword('');
   };
 
   const emailHandler = event => {
@@ -36,6 +35,10 @@ export default function Signup() {
   const passwordHandler = event => {
     setPassword(event.target.value);
   };
+
+  if (navigate) {
+    return <Navigate to={'/login'} />;
+  }
 
   return (
     <SignForm
