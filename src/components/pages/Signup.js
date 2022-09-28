@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SignForm from '../SignForm';
-import axios from '../../api/Backend';
+import axios from 'axios';
 import { Navigate } from 'react-router-dom';
 
 export default function Signup() {
@@ -17,7 +17,7 @@ export default function Signup() {
     };
 
     try {
-      const res = await axios.post('/signup', userData);
+      const res = await axios.post('/users/signup', userData);
       console.log(res);
 
       if (res.status === 201) {
@@ -42,7 +42,7 @@ export default function Signup() {
 
   return (
     <SignForm
-      header={'Signup!'}
+      header={'Signup'}
       submitHandler={submitHandler}
       email={email}
       emailHandler={emailHandler}

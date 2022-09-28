@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import CardsContext from '../../context/CardsContext';
+import './Flashcard.css';
 
 export default function Flashcard() {
   const [flip, setFlip] = useState(false);
@@ -24,9 +25,13 @@ export default function Flashcard() {
   };
 
   return (
-    <div>
-      <div className="flashcard" onClick={() => setFlip(!flip)}>
-        <div className="flashcard-text">{!flip ? card.front : card.back}</div>
+    <div className="card-container">
+      <div
+        className={`card ${flip ? 'flip' : ''}`}
+        onClick={() => setFlip(!flip)}
+      >
+        <div className="front">{card.front}</div>
+        <div className="back">{card.back}</div>
       </div>
       <div className="buttons">
         <button className="btn" onClick={prev}>

@@ -1,4 +1,5 @@
 import { createContext, useState } from 'react';
+import axios from '../api/axios';
 
 const LoginContext = createContext({
   user_id: 0,
@@ -21,11 +22,13 @@ export const LoginProvider = ({ children }) => {
   const logoutHandler = () => {
     setUserId(0);
     setToken(null);
+    axios.post('/logout').catch(err => console.log(err));
   };
 
   const contextValue = {
     user_id: userId,
     token: token,
+    setToken,
     isLoggedIn: isLoggedIn,
     login: loginHandler,
     logout: logoutHandler,

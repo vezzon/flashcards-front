@@ -1,13 +1,24 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import './SignForm.css';
 
-export default function SignForm(props) {
+// TODO: change email input type from 'text' to 'email'
+
+const SignForm = props => {
+  const emailRef = useRef();
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
   return (
-    <div>
+    <div className="signform-container">
       <h1>{props.header}</h1>
       <form onSubmit={props.submitHandler}>
-        <div>
+        <div className="signform-input">
           <label htmlFor="email">Email</label>
           <input
+            ref={emailRef}
             type="text"
             name="email"
             value={props.email}
@@ -15,7 +26,7 @@ export default function SignForm(props) {
             onChange={props.emailHandler}
           />
         </div>
-        <div>
+        <div className="signform-input">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -27,9 +38,11 @@ export default function SignForm(props) {
         </div>
         <button type="submit">{props.submitButton}</button>
       </form>
-      <div>
+      <button className="signform-link">
         <Link to={props.href}>{props.linkText}</Link>
-      </div>
+      </button>
     </div>
   );
-}
+};
+
+export default SignForm;

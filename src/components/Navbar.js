@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import { useContext } from 'react';
-import LoginContext from '../context/LoginContext';
+import { Link, NavLink } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import './Navbar.css';
 
 export default function Navbar() {
-  const { isLoggedIn, logout } = useContext(LoginContext);
+  const { isLoggedIn, logout } = useAuth();
 
   return (
     <nav className="nav">
@@ -12,31 +12,31 @@ export default function Navbar() {
       </Link>
       <ul>
         <li>
-          <Link to={'/'}>Home</Link>
+          <NavLink to={'/'}>Home</NavLink>
         </li>
         {isLoggedIn && (
           <li>
-            <Link to={'/dashboard'}>Dashboard</Link>
+            <NavLink to={'/dashboard'}>Dashboard</NavLink>
           </li>
         )}
         {isLoggedIn && (
           <li>
-            <Link to={'/flashcard'}>Flashcard</Link>
+            <NavLink to={'/flashcard'}>Flashcard</NavLink>
           </li>
         )}
         {!isLoggedIn && (
           <li>
-            <Link to={'/signup'}>Signup</Link>
+            <NavLink to={'/signup'}>Signup</NavLink>
           </li>
         )}
         {!isLoggedIn && (
           <li>
-            <Link to={'/login'}>Login</Link>
+            <NavLink to={'/login'}>Login</NavLink>
           </li>
         )}
         {isLoggedIn && (
           <li>
-            <Link onClick={() => logout()} to={'/'}>
+            <Link onClick={() => logout()} to={'/login'}>
               Logout
             </Link>
           </li>

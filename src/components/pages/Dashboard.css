@@ -1,0 +1,34 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.dashboard-add-card {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: antiquewhite;
+  border-radius: 0.3em;
+}
+
+.dashboard-add-card div {
+  padding: 5px;
+}
+
+.dashboard-add-card label {
+  padding: 5px;
+}
+
+.dashboard-csv {
+  margin: 20px auto;
+  border-radius: 0.3em;
+  padding: 10px;
+  background-color: aliceblue;
+}
+
+.dashboard-csv p {
+  margin: 5px;
+}

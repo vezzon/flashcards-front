@@ -1,13 +1,33 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import CardsContext from '../../context/CardsContext';
-import LoginContext from '../../context/LoginContext';
-import axios from '../../api/Backend';
+import useAuth from '../../hooks/useAuth';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useCSVReader } from 'react-papaparse';
+import './Dashboard.css';
 
-export default function Dashboard() {
+const Dashboard = () => {
   const { cards, refresh } = useContext(CardsContext);
-  const { user_id, token } = useContext(LoginContext);
+  const { user_id, token } = useAuth();
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
+  const [newCards, setNewCards] = useState([]);
+  const { CSVReader } = useCSVReader();
+  const addFrontRef = useRef();
+  const axiosPrivate = useAxiosPrivate();
+
+  useEffect(() => {
+    addFrontRef.current.focus();
+  }, []);
+
+  const createCardReq = async card => {
+    try {
+      // const headers = { headers: { Authorization: `Bearer ${token}` } }; // This token is not refreshed!
+      console.log('create card req token', token);
+      await axiosPrivate.post(`cards`, card);
+    } catch (error) {
+      console.log('create card req', error);
+    }
+  };
 
   const addCardHandler = async event => {
     event.preventDefault();
@@ -15,16 +35,10 @@ export default function Dashboard() {
     const card = { front, back, user_id };
 
     try {
-      const res = await axios.post(`cards`, card, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      createCardReq(card);
       refresh(prev => !prev);
       setFront('');
       setBack('');
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -38,22 +52,104 @@ export default function Dashboard() {
     setBack(event.target.value);
   };
 
+  const exstractCSV = file => {
+    const { data } = file;
+    let cardsArr = [];
+    data.forEach(ele => {
+      if (ele.length > 2) {
+        const card = { front: ele[2], back: ele[3], user_id };
+        cardsArr.push(card);
+      }
+    });
+    setNewCards(cardsArr);
+  };
+
+  const addNewCardsHandler = () => {
+    newCards.forEach(card => {
+      createCardReq(card);
+    });
+    refresh(prev => !prev);
+  };
+
+  const listNewCards = () => {
+    return (
+      <ol>
+        {newCards.map(card => (
+          <li key={card.front}>
+            <strong>{card.front}</strong>: {card.back}
+          </li>
+        ))}
+      </ol>
+    );
+  };
+
   return (
-    <>
+    <div className="dashboard-container">
       <h1>Dashboard</h1>
       <h2>Number of flashcards available {cards.length} </h2>
       {/* <h3>Pick number of cards you want to learn</h3>
       <input type="number" /> */}
-      <h2>Add card</h2>
-      <form onSubmit={addCardHandler}>
-        <label htmlFor="front">Front</label>
-        <input type="text" name="front" value={front} onChange={frontHandler} />
-        <label htmlFor="back">Back</label>
-        <input type="text" name="back" value={back} onChange={backHandler} />
-        <button type="submit">Add card</button>
-      </form>
-      <h2>Add cards from CSV</h2>
-      <p>Format is front,back</p>
-    </>
+      <div className="dashboard-add-card">
+        <h2>Add card</h2>
+        <form onSubmit={addCardHandler}>
+          <div>
+            <label htmlFor="front">Front</label>
+            <input
+              ref={addFrontRef}
+              type="text"
+              name="front"
+              value={front}
+              onChange={frontHandler}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="back">Back</label>
+            <input
+              type="text"
+              name="back"
+              value={back}
+              onChange={backHandler}
+              required
+            />
+          </div>
+          <button type="submit">Add card</button>
+        </form>
+      </div>
+      <div className="dashboard-csv">
+        <h2>Add cards from CSV</h2>
+        <p>Format is lang1,lang2,front,back</p>
+        <p>This is default CSV file from google translate</p>
+        <CSVReader
+          onUploadAccepted={results => {
+            // console.log(results);
+            exstractCSV(results);
+          }}
+        >
+          {({
+            getRootProps,
+            acceptedFile,
+            ProgressBar,
+            getRemoveFileProps,
+          }) => (
+            <>
+              <div>
+                <button type="button" {...getRootProps()}>
+                  Browse file
+                </button>
+                <div>{acceptedFile && acceptedFile.name}</div>
+                <button {...getRemoveFileProps()}>Remove</button>
+              </div>
+              <ProgressBar />
+            </>
+          )}
+        </CSVReader>
+
+        <button onClick={addNewCardsHandler}>Add cards</button>
+        {listNewCards()}
+      </div>
+    </div>
   );
-}
+};
+
+export default Dashboard;

@@ -1,6 +1,6 @@
-import axios from '../api/Backend';
-import { createContext, useEffect, useState, useContext } from 'react';
-import LoginContext from '../context/LoginContext';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import { createContext, useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
 
 const CardsContext = createContext({
   cards: [],
@@ -9,22 +9,20 @@ const CardsContext = createContext({
 export const CardsProvider = ({ children }) => {
   const [cards, setCards] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const { user_id, token, isLoggedIn } = useContext(LoginContext);
+  const { user_id, token, isLoggedIn } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    axios
+    axiosPrivate
       .get(`/cards/users/${user_id}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then(res => setCards(res.data))
       .catch(err => {
-        console.log(err);
+        console.log('Cards context', err);
       });
-  }, [token, isLoggedIn, user_id, refresh]);
+  }, [token, isLoggedIn, user_id, refresh, axiosPrivate]);
 
   const contextValue = {
     cards: cards,

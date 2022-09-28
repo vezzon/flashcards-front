@@ -1,30 +1,25 @@
-import { useState, useContext } from 'react';
-import LoginContext from '../../context/LoginContext';
+import { useState } from 'react';
+import useAuth from '../../hooks/useAuth';
 import SignForm from '../SignForm';
-import axios from '../../api/Backend';
+import axios from '../../api/axios';
 import { Navigate } from 'react-router-dom';
 
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [navigate, setNavigate] = useState(false);
-  const loginContext = useContext(LoginContext);
+  const { login } = useAuth();
 
   const submitHandler = async event => {
     event.preventDefault();
 
-    const userData = {
-      email: email,
-      password: password,
-    };
-
     try {
-      const res = await axios.post('/login', userData);
+      const res = await axios.post('/login', { email, password });
       console.log(res);
 
       const { id, token } = res.data;
 
-      loginContext.login(id, token);
+      login(id, token);
       setNavigate(true);
     } catch (error) {
       console.log(error.response.data);
@@ -45,7 +40,7 @@ export default function Login() {
 
   return (
     <SignForm
-      header={'Login!'}
+      header={'Login'}
       submitHandler={submitHandler}
       email={email}
       emailHandler={emailHandler}
@@ -56,4 +51,6 @@ export default function Login() {
       linkText={"Don't have account yet?"}
     />
   );
-}
+};
+
+export default Login;
