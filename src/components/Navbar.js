@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <nav className="nav">
       <Link to={'/'} className="site-title">
-        Flashcards App
+        Flashcards
       </Link>
       <ul>
         <li>

@@ -1,13 +1,13 @@
-import { useContext, useState, useRef, useEffect } from 'react';
-import CardsContext from '../../context/CardsContext';
+import { useState, useRef, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
+import useCards from '../../hooks/useCards';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { useCSVReader } from 'react-papaparse';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { cards, refresh } = useContext(CardsContext);
-  const { user_id, token } = useAuth();
+  const { cards, refresh } = useCards();
+  const { user_id } = useAuth();
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
   const [newCards, setNewCards] = useState([]);
@@ -21,8 +21,6 @@ const Dashboard = () => {
 
   const createCardReq = async card => {
     try {
-      // const headers = { headers: { Authorization: `Bearer ${token}` } }; // This token is not refreshed!
-      console.log('create card req token', token);
       await axiosPrivate.post(`cards`, card);
     } catch (error) {
       console.log('create card req', error);

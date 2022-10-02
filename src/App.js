@@ -5,24 +5,25 @@ import Login from './components/pages/Login';
 import Navbar from './components/Navbar';
 import Signup from './components/pages/Signup';
 import { Routes, Route } from 'react-router-dom';
-import useAuth from './hooks/useAuth';
+import RequireAuth from './components/RequireAuth';
+import PersistLogin from './components/PersisLogin';
 
 function App() {
-  const { isLoggedIn } = useAuth();
-
   return (
     <>
       <Navbar />
-      <div className="container">
-        <Routes>
+      <Routes>
+        <Route element={<PersistLogin />}>
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          {isLoggedIn && <Route path="/dashboard" element={<Dashboard />} />}
-          {isLoggedIn && <Route path="/flashcard" element={<Flashcard />} />}
-          <Route path="*" element={<Home />} /> {/* TODO: 404 Page? */}
-        </Routes>
-      </div>
+          <Route element={<RequireAuth />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/flashcard" element={<Flashcard />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<Home />} />
+      </Routes>
     </>
   );
 }
