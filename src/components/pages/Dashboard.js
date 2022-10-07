@@ -7,7 +7,7 @@ import './Dashboard.css';
 
 const Dashboard = () => {
   const { cards, refresh } = useCards();
-  const { user_id } = useAuth();
+  const { userId } = useAuth();
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
   const [newCards, setNewCards] = useState([]);
@@ -30,7 +30,7 @@ const Dashboard = () => {
   const addCardHandler = async event => {
     event.preventDefault();
 
-    const card = { front, back, user_id };
+    const card = { front, back, userId };
 
     try {
       createCardReq(card);
@@ -55,7 +55,7 @@ const Dashboard = () => {
     let cardsArr = [];
     data.forEach(ele => {
       if (ele.length > 2) {
-        const card = { front: ele[2], back: ele[3], user_id };
+        const card = { front: ele[2], back: ele[3], userId };
         cardsArr.push(card);
       }
     });

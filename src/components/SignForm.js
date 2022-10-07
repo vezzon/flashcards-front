@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './SignForm.css';
 
-// TODO: change email input type from 'text' to 'email'
-
 const SignForm = props => {
   const emailRef = useRef();
 
@@ -19,7 +17,7 @@ const SignForm = props => {
           <label htmlFor="email">Email</label>
           <input
             ref={emailRef}
-            type="text"
+            type="email"
             name="email"
             value={props.email}
             required

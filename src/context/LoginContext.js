@@ -2,7 +2,7 @@ import { createContext, useState } from 'react';
 import axios from '../api/axios';
 
 const LoginContext = createContext({
-  user_id: 0,
+  userId: 0,
   token: '',
   isLoggedIn: false,
   login: token => {},
@@ -34,7 +34,7 @@ export const LoginProvider = ({ children }) => {
   };
 
   const contextValue = {
-    user_id: userId,
+    userId: userId,
     token: token,
     persist,
     setUserId,

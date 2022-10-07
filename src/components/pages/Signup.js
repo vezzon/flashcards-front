@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import SignForm from '../SignForm';
-import axios from 'axios';
+import axios from '../../api/axios';
 import { Navigate } from 'react-router-dom';
 
 export default function Signup() {
