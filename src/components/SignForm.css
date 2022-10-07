@@ -6,11 +6,11 @@
 
 .signform__form {
   justify-content: center;
-  width: 50%;
+  width: 100%;
   min-width: 350px;
   max-width: 400px;
-  padding: 50px 30px;
-  margin: 20px auto;
+  padding: 3rem 2rem;
+  margin: 1.5rem auto;
   background-color: #38444d;
   color: whitesmoke;
   border-radius: 0.5em;
@@ -31,6 +31,7 @@
 }
 
 .signform__link {
+  text-align: center;
   margin: 10px;
 }
 
@@ -40,10 +41,11 @@
 
 .signform__link a {
   text-decoration: none;
-  color: black;
+  color: rgb(18, 123, 53);
 }
 
 .sumbit__error {
   text-align: center;
   color: red;
+  margin: 0.5rem 0;
 }

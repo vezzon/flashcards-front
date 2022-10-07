@@ -7,9 +7,17 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [navigate, setNavigate] = useState(false);
+  const [err, setErr] = useState(false);
+  const [errMsg, setErrMsg] = useState(false);
 
   const submitHandler = async event => {
     event.preventDefault();
+
+    if (password.length < 15) {
+      setErr(true);
+      setErrMsg('Password has has to be at least 15 characters');
+      return;
+    }
 
     const userData = {
       email: email,
@@ -30,10 +38,12 @@ export default function Signup() {
 
   const emailHandler = event => {
     setEmail(event.target.value);
+    setErr(false);
   };
 
   const passwordHandler = event => {
     setPassword(event.target.value);
+    setErr(false);
   };
 
   if (navigate) {
@@ -42,6 +52,8 @@ export default function Signup() {
 
   return (
     <SignForm
+      err={err}
+      errMsg={errMsg}
       header={'Signup'}
       submitHandler={submitHandler}
       email={email}
@@ -50,7 +62,8 @@ export default function Signup() {
       passwordHandler={passwordHandler}
       submitButton={'Signup'}
       href={'/login'}
-      linkText={'Already have an account?'}
+      text={'Already a member?'}
+      link={'Login!'}
     />
   );
 }

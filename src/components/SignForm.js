@@ -11,7 +11,8 @@ const SignForm = ({
   passwordHandler,
   submitButton,
   href,
-  linkText,
+  link,
+  text,
   err,
   errMsg,
 }) => {
@@ -28,6 +29,7 @@ const SignForm = ({
         <div className="signform__input">
           <label htmlFor="email">Email</label>
           <input
+            autoComplete="on"
             ref={emailRef}
             id="email"
             type="email"
@@ -38,6 +40,7 @@ const SignForm = ({
           />
           <label htmlFor="password">Password</label>
           <input
+            autoComplete="on"
             id="password"
             type="password"
             name="password"
@@ -50,9 +53,10 @@ const SignForm = ({
         <button className="signform__submit" type="submit">
           {submitButton}
         </button>
-        <button className="signform__link">
-          <Link to={href}>{linkText}</Link>
-        </button>
+        <p className="signform__link">
+          {text}
+          <Link to={href}> {link}</Link>
+        </p>
       </form>
     </div>
   );

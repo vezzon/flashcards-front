@@ -15,6 +15,12 @@ const Login = () => {
   const submitHandler = async event => {
     event.preventDefault();
 
+    if (password.length < 15) {
+      setErr(true);
+      setErrMsg('Password has has to be at least 15 characters');
+      return;
+    }
+
     try {
       const res = await axios.post('/login', { email, password });
       // console.log(res);
@@ -57,7 +63,8 @@ const Login = () => {
       passwordHandler={passwordHandler}
       submitButton={'Login'}
       href={'/signup'}
-      linkText={"Don't have account yet?"}
+      text={'Not a member?'}
+      link={'Signup!'}
     />
   );
 };
