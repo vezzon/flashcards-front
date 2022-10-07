@@ -2,7 +2,19 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './SignForm.css';
 
-const SignForm = props => {
+const SignForm = ({
+  header,
+  submitHandler,
+  email,
+  emailHandler,
+  password,
+  passwordHandler,
+  submitButton,
+  href,
+  linkText,
+  err,
+  errMsg,
+}) => {
   const emailRef = useRef();
 
   useEffect(() => {
@@ -10,35 +22,38 @@ const SignForm = props => {
   }, []);
 
   return (
-    <div className="signform-container">
-      <h1>{props.header}</h1>
-      <form onSubmit={props.submitHandler}>
-        <div className="signform-input">
+    <div className="signform__container">
+      <form className="signform__form" onSubmit={submitHandler}>
+        <h1 className="signform__header">{header}</h1>
+        <div className="signform__input">
           <label htmlFor="email">Email</label>
           <input
             ref={emailRef}
+            id="email"
             type="email"
             name="email"
-            value={props.email}
+            value={email}
             required
-            onChange={props.emailHandler}
+            onChange={emailHandler}
           />
-        </div>
-        <div className="signform-input">
           <label htmlFor="password">Password</label>
           <input
+            id="password"
             type="password"
             name="password"
-            value={props.password}
+            value={password}
             required
-            onChange={props.passwordHandler}
+            onChange={passwordHandler}
           />
         </div>
-        <button type="submit">{props.submitButton}</button>
+        {err && <p className="sumbit__error">{errMsg}</p>}
+        <button className="signform__submit" type="submit">
+          {submitButton}
+        </button>
+        <button className="signform__link">
+          <Link to={href}>{linkText}</Link>
+        </button>
       </form>
-      <button className="signform-link">
-        <Link to={props.href}>{props.linkText}</Link>
-      </button>
     </div>
   );
 };

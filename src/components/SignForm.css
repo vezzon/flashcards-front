@@ -1,37 +1,49 @@
-.signform-container {
+.signform__container {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.signform__form {
   justify-content: center;
-  width: 30%;
-  min-width: 280px;
+  width: 50%;
+  min-width: 350px;
+  max-width: 400px;
+  padding: 50px 30px;
   margin: 20px auto;
   background-color: #38444d;
   color: whitesmoke;
   border-radius: 0.5em;
 }
 
-.signform-container h1 {
-  font-weight: normal;
-  margin: 5px;
+.signform__header {
+  text-align: center;
 }
 
-.signform-container form {
+.signform__container form {
   display: flex;
   flex-direction: column;
 }
 
-.signform-input {
+.signform__input {
   display: flex;
   flex-direction: column;
-  margin: 5px;
 }
 
-.signform-link {
+.signform__link {
   margin: 10px;
 }
 
-.signform-link a {
+.signform__submit {
+  margin: 10px 0px;
+}
+
+.signform__link a {
   text-decoration: none;
   color: black;
+}
+
+.sumbit__error {
+  text-align: center;
+  color: red;
 }

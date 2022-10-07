@@ -8,6 +8,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [navigate, setNavigate] = useState(false);
+  const [err, setErr] = useState(false);
+  const [errMsg, setErrMsg] = useState(false);
   const { login } = useAuth();
 
   const submitHandler = async event => {
@@ -15,23 +17,28 @@ const Login = () => {
 
     try {
       const res = await axios.post('/login', { email, password });
-      console.log(res);
-
+      // console.log(res);
       const { id, token } = res.data;
 
       login(id, token);
       setNavigate(true);
     } catch (error) {
-      console.log(error.response.data);
+      if (error.response.status === 400) {
+        setErr(true);
+        setErrMsg(error.response.data.message);
+      }
+      console.log(error.response);
     }
   };
 
   const emailHandler = event => {
     setEmail(event.target.value);
+    setErr(false);
   };
 
   const passwordHandler = event => {
     setPassword(event.target.value);
+    setErr(false);
   };
 
   if (navigate) {
@@ -40,6 +47,8 @@ const Login = () => {
 
   return (
     <SignForm
+      err={err}
+      errMsg={errMsg}
       header={'Login'}
       submitHandler={submitHandler}
       email={email}
