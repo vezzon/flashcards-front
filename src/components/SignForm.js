@@ -24,12 +24,15 @@ const SignForm = ({
 
   return (
     <div className="signform__container">
-      <form className="signform__form" onSubmit={submitHandler}>
+      <form
+        className="signform__form"
+        onSubmit={submitHandler}
+        autoComplete="on"
+      >
         <h1 className="signform__header">{header}</h1>
         <div className="signform__input">
           <label htmlFor="email">Email</label>
           <input
-            autoComplete="on"
             ref={emailRef}
             id="email"
             type="email"
@@ -40,7 +43,6 @@ const SignForm = ({
           />
           <label htmlFor="password">Password</label>
           <input
-            autoComplete="on"
             id="password"
             type="password"
             name="password"

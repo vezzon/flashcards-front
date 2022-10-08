@@ -12,12 +12,21 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState(false);
   const { login } = useAuth();
 
+  const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
   const submitHandler = async event => {
     event.preventDefault();
 
+    const emailValidation = EMAIL_REGEX.test(email);
+    if (!emailValidation) {
+      setErr(true);
+      setErrMsg('Invalid email format');
+      return;
+    }
+
     if (password.length < 15) {
       setErr(true);
-      setErrMsg('Password has has to be at least 15 characters');
+      setErrMsg('Password has to be at least 15 characters');
       return;
     }
 

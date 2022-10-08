@@ -10,12 +10,21 @@ export default function Signup() {
   const [err, setErr] = useState(false);
   const [errMsg, setErrMsg] = useState(false);
 
+  const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
   const submitHandler = async event => {
     event.preventDefault();
 
+    const emailValidation = EMAIL_REGEX.test(email);
+    if (!emailValidation) {
+      setErr(true);
+      setErrMsg('Invalid email format');
+      return;
+    }
+
     if (password.length < 15) {
       setErr(true);
-      setErrMsg('Password has has to be at least 15 characters');
+      setErrMsg('Password has to be at least 15 characters');
       return;
     }
 
@@ -26,12 +35,16 @@ export default function Signup() {
 
     try {
       const res = await axios.post('/users/signup', userData);
-      console.log(res);
+      // console.log(res);
 
       if (res.status === 201) {
         setNavigate(true);
       }
     } catch (error) {
+      if (error.response.status === 400) {
+        setErr(true);
+        setErrMsg(error.response.data.message);
+      }
       console.log(error.response.data);
     }
   };
