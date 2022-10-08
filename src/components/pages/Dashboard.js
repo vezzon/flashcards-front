@@ -23,7 +23,7 @@ const Dashboard = () => {
     try {
       await axiosPrivate.post(`cards`, card);
     } catch (error) {
-      console.log('create card req', error);
+      console.log(error);
     }
   };
 
@@ -62,35 +62,45 @@ const Dashboard = () => {
     setNewCards(cardsArr);
   };
 
+  const clearNewCardsHandler = () => {
+    setNewCards([]);
+  };
+
   const addNewCardsHandler = () => {
     newCards.forEach(card => {
       createCardReq(card);
     });
+    setNewCards([]);
     refresh(prev => !prev);
   };
 
-  const listNewCards = () => {
+  const listNewCards = cards => {
     return (
-      <ol>
-        {newCards.map(card => (
-          <li key={card.front}>
-            <strong>{card.front}</strong>: {card.back}
-          </li>
-        ))}
-      </ol>
+      <div className="dashboard__csv__cardlist__container">
+        <h3>Cards from CSV</h3>
+        <ol className="dashboard__csv__cardlist">
+          {cards.map(card => (
+            <li key={card.front}>
+              {card.front} : {card.back}
+            </li>
+          ))}
+        </ol>
+      </div>
     );
   };
 
   return (
-    <div className="dashboard-container">
-      <h1>Dashboard</h1>
-      <h2>Number of flashcards available {cards.length} </h2>
-      {/* <h3>Pick number of cards you want to learn</h3>
-      <input type="number" /> */}
-      <div className="dashboard-add-card">
+    <div className="dashboard__container">
+      <h2 className="dashboard__header">Flashcards total: {cards.length} </h2>
+
+      <div className="dashboard__addcard">
         <h2>Add card</h2>
-        <form onSubmit={addCardHandler}>
-          <div>
+        <form
+          className="dashboard__addcard_form"
+          onSubmit={addCardHandler}
+          autoComplete="off"
+        >
+          <div className="dashboard__addcard__input">
             <label htmlFor="front">Front</label>
             <input
               ref={addFrontRef}
@@ -101,7 +111,7 @@ const Dashboard = () => {
               required
             />
           </div>
-          <div>
+          <div className="dashboard__addcard__input">
             <label htmlFor="back">Back</label>
             <input
               type="text"
@@ -114,38 +124,34 @@ const Dashboard = () => {
           <button type="submit">Add card</button>
         </form>
       </div>
-      <div className="dashboard-csv">
+
+      <div className="dashboard__csv">
         <h2>Add cards from CSV</h2>
         <p>Format is lang1,lang2,front,back</p>
         <p>This is default CSV file from google translate</p>
         <CSVReader
           onUploadAccepted={results => {
-            // console.log(results);
             exstractCSV(results);
           }}
         >
-          {({
-            getRootProps,
-            acceptedFile,
-            ProgressBar,
-            getRemoveFileProps,
-          }) => (
+          {({ getRootProps, acceptedFile, ProgressBar }) => (
             <>
               <div>
+                <div className="dashboard__csv__filename">
+                  {acceptedFile && newCards.length > 0 && acceptedFile.name}
+                </div>
                 <button type="button" {...getRootProps()}>
                   Browse file
                 </button>
-                <div>{acceptedFile && acceptedFile.name}</div>
-                <button {...getRemoveFileProps()}>Remove</button>
+                <button onClick={clearNewCardsHandler}>Remove</button>
+                <button onClick={addNewCardsHandler}>Add cards</button>
               </div>
               <ProgressBar />
             </>
           )}
         </CSVReader>
-
-        <button onClick={addNewCardsHandler}>Add cards</button>
-        {listNewCards()}
       </div>
+      {newCards.length > 0 && listNewCards(newCards)}
     </div>
   );
 };

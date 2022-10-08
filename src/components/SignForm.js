@@ -56,8 +56,7 @@ const SignForm = ({
           {submitButton}
         </button>
         <p className="signform__link">
-          {text}
-          <Link to={href}> {link}</Link>
+          {text} <Link to={href}> {link}</Link>
         </p>
       </form>
     </div>
