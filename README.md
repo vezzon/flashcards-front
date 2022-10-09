@@ -1,1 +1,1 @@
-Flashcards project! WOOHOO!
+Frontend for Flashcard app

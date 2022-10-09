@@ -74,6 +74,7 @@ const Dashboard = () => {
     refresh(prev => !prev);
   };
 
+  // TODO: move to component
   const listNewCards = cards => {
     return (
       <div className="dashboard__csv__cardlist__container">
@@ -121,7 +122,9 @@ const Dashboard = () => {
               required
             />
           </div>
-          <button type="submit">Add card</button>
+          <button className="btn" type="submit">
+            Add card
+          </button>
         </form>
       </div>
 
@@ -136,15 +139,21 @@ const Dashboard = () => {
         >
           {({ getRootProps, acceptedFile, ProgressBar }) => (
             <>
-              <div>
+              {newCards.length > 0 && (
                 <div className="dashboard__csv__filename">
-                  {acceptedFile && newCards.length > 0 && acceptedFile.name}
+                  {acceptedFile && acceptedFile.name}
                 </div>
-                <button type="button" {...getRootProps()}>
+              )}
+              <div className="dashboard__csv__card">
+                <button className="btn" type="button" {...getRootProps()}>
                   Browse file
                 </button>
-                <button onClick={clearNewCardsHandler}>Remove</button>
-                <button onClick={addNewCardsHandler}>Add cards</button>
+                <button className="btn" onClick={clearNewCardsHandler}>
+                  Remove
+                </button>
+                <button className="btn" onClick={addNewCardsHandler}>
+                  Add cards
+                </button>
               </div>
               <ProgressBar />
             </>

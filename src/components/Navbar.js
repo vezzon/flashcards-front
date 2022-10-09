@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import './Navbar.css';
 
-export default function Navbar() {
+const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
 
   return (
@@ -44,4 +44,6 @@ export default function Navbar() {
       </ul>
     </nav>
   );
-}
+};
+
+export default Navbar;

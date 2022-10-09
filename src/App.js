@@ -8,7 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import RequireAuth from './components/RequireAuth';
 import PersistLogin from './components/PersisLogin';
 
-function App() {
+const App = () => {
   return (
     <>
       <Navbar />
@@ -26,6 +26,6 @@ function App() {
       </Routes>
     </>
   );
-}
+};
 
 export default App;

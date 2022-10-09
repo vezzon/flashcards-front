@@ -5,6 +5,7 @@ import './SignForm.css';
 const SignForm = ({
   header,
   submitHandler,
+  autocomplete,
   email,
   emailHandler,
   password,
@@ -27,7 +28,7 @@ const SignForm = ({
       <form
         className="signform__form"
         onSubmit={submitHandler}
-        autoComplete="on"
+        autoComplete={autocomplete}
       >
         <h1 className="signform__header">{header}</h1>
         <div className="signform__input">
@@ -52,7 +53,7 @@ const SignForm = ({
           />
         </div>
         {err && <p className="sumbit__error">{errMsg}</p>}
-        <button className="signform__submit" type="submit">
+        <button className="btn signform__submit" type="submit">
           {submitButton}
         </button>
         <p className="signform__link">

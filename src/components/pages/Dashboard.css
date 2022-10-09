@@ -49,6 +49,11 @@
   background-color: #38444d;
 }
 
+.dashboard__csv__card {
+  display: flex;
+  justify-content: center;
+}
+
 .dashboard__csv__filename {
   margin: 1rem;
   text-align: center;

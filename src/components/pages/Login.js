@@ -32,7 +32,6 @@ const Login = () => {
 
     try {
       const res = await axios.post('/login', { email, password });
-      // console.log(res);
       const { id, token } = res.data;
 
       login(id, token);
@@ -65,6 +64,7 @@ const Login = () => {
       err={err}
       errMsg={errMsg}
       header={'Login'}
+      autocomplete={'on'}
       submitHandler={submitHandler}
       email={email}
       emailHandler={emailHandler}

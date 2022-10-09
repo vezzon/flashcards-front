@@ -3,7 +3,7 @@ import SignForm from '../SignForm';
 import axios from '../../api/axios';
 import { Navigate } from 'react-router-dom';
 
-export default function Signup() {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [navigate, setNavigate] = useState(false);
@@ -68,6 +68,7 @@ export default function Signup() {
       err={err}
       errMsg={errMsg}
       header={'Signup'}
+      autocomplete={'off'}
       submitHandler={submitHandler}
       email={email}
       emailHandler={emailHandler}
@@ -79,4 +80,6 @@ export default function Signup() {
       link={'Login!'}
     />
   );
-}
+};
+
+export default Signup;
