@@ -5,7 +5,7 @@ ENV NODE_ENV=production
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
-WORKDIR /usr/src/client
+WORKDIR /app/client
 
 COPY package.json .
 COPY package-lock.json .
